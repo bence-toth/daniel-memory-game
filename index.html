@@ -8,12 +8,10 @@
       padding: 0;
       margin: 0;
       box-sizing: border-box;
+      cursor: none;
     }
     html, body {
       height: 100%;
-    }
-    body {
-      cursor: none;
     }
     #pointer {
       position: fixed;
@@ -60,14 +58,14 @@
       transform: rotateY(0deg);
     }
   </style>
-</head><body>
+</head><body draggable="false">
   <div id="board">
     <div id="row1"></div>
     <div id="row2"></div>
     <div id="row3"></div>
   </div>
   <div id="pointer">
-    <img src="./assets/pointing-hand.png" />
+    <img src="./assets/pointing-hand.png" draggable="false" />
   </div>
   <script>
     const shuffleArray = array => {
@@ -120,10 +118,16 @@
             class="front"
             style="background-color: ${card.color};"
           >
-            <img src="./assets/${card.figure}.svg" />
+            <img
+              src="./assets/${card.figure}.svg"
+              draggable="false"
+            />
           </div>
           <div class="back">
-            <img src="./assets/perspective-dice-six-faces-random.svg" />
+            <img
+              src="./assets/perspective-dice-six-faces-random.svg"
+              draggable="false"
+            />
           </div>
         </button>
       `
