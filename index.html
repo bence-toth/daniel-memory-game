@@ -13,12 +13,35 @@
       left: 0;
       pointer-events: none;
     }
+    #board {
+      background-color: gray;
+    }
+    .card {
+      width: 120px;
+      height: 120px;
+      margin: 20px;
+      border: 1px solid red;
+      background-color: transparent;
+    }
+    .card:hover {
+      background: blue;
+    }
   </style>
 </head><body>
+  <div id="board"></div>
   <div id="pointer">
     <img src="./assets/pointing-hand.png" />
   </div>
   <script>
+    const shuffleArray = array => {
+      // Fisher–Yates shuffle
+      for (let iterator = array.length - 1; iterator > 0; iterator--) {
+        const switchWith = Math.floor(Math.random() * (iterator + 1));
+        [array[iterator], array[switchWith]] = [array[switchWith], array[iterator]]
+      }
+      return array
+    }
+
     const setupPointer = () => {
       const pointer = document.getElementById('pointer')
       const pointerImage = document.querySelector('#pointer > img')
@@ -47,6 +70,64 @@
       });
     }
 
+    const setupBoard = () => {
+      const cards = ["ambulance", "bulldozer", "bus", "mine-truck", "steam-locomotive"]
+      const colors = [
+        "#d200d9",
+        "#8e00d9",
+        "#4b00d9",
+        "#003cd9",
+        "#00c2d9",
+        "#00d969",
+        "#1eda00",
+        "#a5da00",
+        "#db8800",
+        "#db0000"
+      ]
+      const renderCard = card => `
+        <button
+          class="card"
+          data-value="${card.figure}"
+          data-selected="false"
+        >
+          <img
+            class="front"
+            src="./assets/${card.figure}.svg"
+          />
+          <img
+            class="back"
+            src="./assets/perspective-dice-six-faces-random.svg"
+          />
+        </button>
+      `
+      document.getElementById("board").innerHTML = (
+        shuffleArray([...cards, ...cards])
+          .map((card, cardIndex) => ({
+            id: cardIndex,
+            figure: card
+          }))
+          .map(renderCard).join('')
+      )
+    }
+
+    const handleCardClick = event => {
+      const cardClicked = event.path.find(element => (
+        [...element.classList].includes("card"))
+      )
+      console.log(cardClicked)
+      // If there is no card selected, select this card
+      // If there is one card selected, select this card too, compare them, and act accordingly
+      // If there are two cards selected, don't do anything
+    }
+
+    const setupGame = () => {
+      document.querySelectorAll('.card').forEach(card => {
+        card.addEventListener('click', handleCardClick)
+      })
+    }
+
     setupPointer()
+    setupBoard()
+    setupGame()
   </script>
 </body></html>
