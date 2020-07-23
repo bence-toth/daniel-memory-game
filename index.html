@@ -14,7 +14,7 @@
       pointer-events: none;
     }
     #board {
-      background-color: gray;
+      border: 1px solid gray;
     }
     .card {
       width: 120px;
@@ -22,9 +22,28 @@
       margin: 20px;
       border: 1px solid red;
       background-color: transparent;
+      position: relative;
     }
     .card:hover {
-      background: blue;
+      border: 1px solid blue;
+    }
+    .card > .front, .card > .back {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      transition: transform 0.8s;
+    }
+    .card > .back {
+      background-color: aqua;
+    }
+    .card > .front, .card[data-selected=true] > .back {
+      transform: rotateY(180deg);
+    }
+    .card > .back, .card[data-selected=true] > .front {
+      transform: rotateY(0deg);
     }
   </style>
 </head><body>
@@ -71,43 +90,37 @@
     }
 
     const setupBoard = () => {
-      const cards = ["ambulance", "bulldozer", "bus", "mine-truck", "steam-locomotive"]
-      const colors = [
-        "#d200d9",
-        "#8e00d9",
-        "#4b00d9",
-        "#003cd9",
-        "#00c2d9",
-        "#00d969",
-        "#1eda00",
-        "#a5da00",
-        "#db8800",
-        "#db0000"
-      ]
+      const figures = ["ambulance", "bulldozer", "bus", "mine-truck", "steam-locomotive"]
+      const colors = ["#d200d9", "#4b00d9", "#00c2d9", "#1eda00", "#db8800"]
       const renderCard = card => `
         <button
           class="card"
           data-value="${card.figure}"
           data-selected="false"
         >
-          <img
+          <div
             class="front"
-            src="./assets/${card.figure}.svg"
-          />
-          <img
-            class="back"
-            src="./assets/perspective-dice-six-faces-random.svg"
-          />
+            style="background-color: ${card.color};"
+          >
+            <img src="./assets/${card.figure}.svg" />
+          </div>
+          <div class="back">
+            <img src="./assets/perspective-dice-six-faces-random.svg" />
+          </div>
         </button>
       `
-      document.getElementById("board").innerHTML = (
-        shuffleArray([...cards, ...cards])
+
+      const deck = (
+        figures
           .map((card, cardIndex) => ({
             id: cardIndex,
-            figure: card
+            figure: card,
+            color: colors[cardIndex]
           }))
-          .map(renderCard).join('')
       )
+      const fullDeck = [...deck, ...deck]
+      const shuffledDeck = shuffleArray(fullDeck)
+      document.getElementById("board").innerHTML = shuffledDeck.map(renderCard).join('')
     }
 
     const handleCardClick = event => {
@@ -115,6 +128,12 @@
         [...element.classList].includes("card"))
       )
       console.log(cardClicked)
+      if (cardClicked.dataset.selected === "true") {
+        cardClicked.dataset.selected = "false"
+      }
+      else {
+        cardClicked.dataset.selected = "true"
+      }
       // If there is no card selected, select this card
       // If there is one card selected, select this card too, compare them, and act accordingly
       // If there are two cards selected, don't do anything
