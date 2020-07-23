@@ -4,6 +4,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Memory card game</title>
   <style>
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+    html, body {
+      height: 100%;
+    }
     body {
       cursor: none;
     }
@@ -15,6 +23,12 @@
     }
     #board {
       border: 1px solid gray;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
     .card {
       width: 120px;
@@ -37,7 +51,7 @@
       transition: transform 0.8s;
     }
     .card > .back {
-      background-color: aqua;
+      background-color: gray;
     }
     .card > .front, .card[data-selected=true] > .back {
       transform: rotateY(180deg);
@@ -47,7 +61,11 @@
     }
   </style>
 </head><body>
-  <div id="board"></div>
+  <div id="board">
+    <div id="row1"></div>
+    <div id="row2"></div>
+    <div id="row3"></div>
+  </div>
   <div id="pointer">
     <img src="./assets/pointing-hand.png" />
   </div>
@@ -120,7 +138,12 @@
       )
       const fullDeck = [...deck, ...deck]
       const shuffledDeck = shuffleArray(fullDeck)
-      document.getElementById("board").innerHTML = shuffledDeck.map(renderCard).join('')
+      const row1 = document.getElementById("row1")
+      const row2 = document.getElementById("row2")
+      const row3 = document.getElementById("row3")
+      row1.innerHTML = shuffledDeck.slice(0, 3).map(renderCard).join('')
+      row2.innerHTML = shuffledDeck.slice(3, 7).map(renderCard).join('')
+      row3.innerHTML = shuffledDeck.slice(7, 10).map(renderCard).join('')
     }
 
     const handleCardClick = event => {
