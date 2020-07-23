@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Memory card game</title>
+  <style>
+    body {
+      cursor: none;
+    }
+    #pointer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+    }
+  </style>
+</head><body>
+  <div id="pointer">
+    <img src="./assets/pointing-hand.png" />
+  </div>
+  <script>
+    const setupPointer = () => {
+      const pointer = document.getElementById('pointer')
+      const pointerImage = document.querySelector('#pointer > img')
+      const pointingHandPointerOffset = {
+        x: 215,
+        y: 15
+      }
+      const pointerMaxRotation = 25 // in degrees
+      pointer.style.transformOrigin = `${pointingHandPointerOffset.x}px ${pointingHandPointerOffset.y}px`
+      window.addEventListener('mousemove', event => {
+        const viewportWidth = window.innerWidth
+        const {clientX: x, clientY: y} = event
+        const xFromCenter = ((x / viewportWidth) * 2) - 1 // within [-1, 1]
+        const translateX = `${x - pointingHandPointerOffset.x}px`
+        const translateY = `${y - pointingHandPointerOffset.y}px`
+        const rotation = `${xFromCenter * pointerMaxRotation}deg`
+        pointer.style.transform = `translate(${translateX}, ${translateY}) rotate(${rotation})`
+      });
+
+      window.addEventListener('mousedown', e => {
+        pointerImage.src = "./assets/tapping-hand.png"
+      });
+
+      window.addEventListener('mouseup', e => {
+        pointerImage.src = "./assets/pointing-hand.png"
+      });
+    }
+
+    setupPointer()
+  </script>
+</body></html>
