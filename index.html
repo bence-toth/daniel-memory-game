@@ -14,12 +14,14 @@
     }
     html, body {
       height: 100%;
+      overflow: hidden;
     }
     #pointer {
       position: fixed;
       top: 0;
       left: 0;
       pointer-events: none;
+      z-index: 2;
     }
     #board {
       border: 1.5vh solid hsl(0, 0%, 25%);
@@ -33,13 +35,14 @@
       justify-content: center;
     }
     .card {
-      width: 15vh;
-      height: 15vh;
-      margin: 2.5vh;
+      width: 20vh;
+      height: 20vh;
+      margin: 4.5vh;
       border: 0;
       background-color: transparent;
       position: relative;
       perspective: 1000px;
+      transition: transform 5s;
     }
     .card:focus {
       outline: 0;
@@ -62,16 +65,23 @@
     .card > .back {
       transform: rotateY(360deg);
     }
-    .card > .front, .card[data-selected=true] > .back {
+    .card > .front,
+    .card[data-state=selected] > .back,
+    .card[data-state=found] > .back {
       transform: rotateY(180deg);
     }
-    .card[data-selected=true] > .front {
+    .card[data-state=selected] > .front,
+    .card[data-state=found] > .front {
       transform: rotateY(0deg);
     }
     .card:hover > .front, .card:hover > .back,
     .card:focus > .front, .card:focus > .back {
       outline-color: white;
       box-shadow: 0 0 2vh hsla(0, 0%, 0%, 0.5) inset, 0 0 2vh black;
+    }
+    .card[data-state=found] {
+      transform: translateY(100vh) rotate(calc(3 * 360deg)) scale(0.8);
+      z-index: 1;
     }
   </style>
 </head><body draggable="false">
@@ -97,7 +107,7 @@
       const pointer = document.getElementById('pointer')
       const pointerImage = document.querySelector('#pointer > img')
       const pointingHandPointerOffset = {
-        x: 215,
+        x: 70,
         y: 15
       }
       const pointerMaxRotation = 25 // in degrees
@@ -128,7 +138,7 @@
         <button
           class="card"
           data-value="${card.figure}"
-          data-selected="false"
+          data-state="hidden"
         >
           <div
             class="front"
@@ -170,16 +180,30 @@
       const cardClicked = event.path.find(element => (
         [...element.classList].includes("card"))
       )
-      console.log(cardClicked)
-      if (cardClicked.dataset.selected === "true") {
-        cardClicked.dataset.selected = "false"
+      if (cardClicked.dataset.state === "hidden") {
+        const selectedCards = [...document.querySelectorAll('.card[data-state="selected"]')]
+        if (selectedCards.length < 2) {
+          cardClicked.dataset.state = "selected"
+        }
+        if (selectedCards.length === 1) {
+          const [selectedCard] = selectedCards
+          if (selectedCard.dataset.value === cardClicked.dataset.value) {
+            setTimeout(() => {
+              [cardClicked, selectedCard].forEach(card => {
+                card.dataset.state = "found"
+                card.disabled = "disabled"
+              })
+            }, 1000)
+          }
+          else {
+            setTimeout(() => {
+              [cardClicked, selectedCard].forEach(card => {
+                card.dataset.state = "hidden"
+              })
+            }, 3000)
+          }
+        }
       }
-      else {
-        cardClicked.dataset.selected = "true"
-      }
-      // If there is no card selected, select this card
-      // If there is one card selected, select this card too, compare them, and act accordingly
-      // If there are two cards selected, don't do anything
     }
 
     const setupGame = () => {
