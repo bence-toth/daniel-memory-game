@@ -9,6 +9,8 @@
       margin: 0;
       box-sizing: border-box;
       cursor: none;
+      user-select: none;
+      font-size: 0;
     }
     html, body {
       height: 100%;
@@ -20,7 +22,8 @@
       pointer-events: none;
     }
     #board {
-      border: 1px solid gray;
+      border: 1.5vh solid gray;
+      background-color: hsl(0, 0%, 90%);
       width: 100%;
       height: 100%;
       display: flex;
@@ -29,15 +32,16 @@
       justify-content: center;
     }
     .card {
-      width: 120px;
-      height: 120px;
-      margin: 20px;
-      border: 1px solid red;
+      width: 15vh;
+      height: 15vh;
+      margin: 2.5vh;
+      border: 0;
       background-color: transparent;
       position: relative;
+      perspective: 1000px;
     }
-    .card:hover {
-      border: 1px solid blue;
+    .card:focus {
+      outline: 0;
     }
     .card > .front, .card > .back {
       position: absolute;
@@ -46,16 +50,27 @@
       width: 100%;
       height: 100%;
       backface-visibility: hidden;
-      transition: transform 0.8s;
+      transition: transform 0.8s, outline-color 0.5s, box-shadow 0.5s;
+      outline: 10px solid transparent;
+      box-shadow: 0 0 2vh transparent;
+      padding: 1vh;
     }
     .card > .back {
       background-color: gray;
     }
+    .card > .back {
+      transform: rotateY(360deg);
+    }
     .card > .front, .card[data-selected=true] > .back {
       transform: rotateY(180deg);
     }
-    .card > .back, .card[data-selected=true] > .front {
+    .card[data-selected=true] > .front {
       transform: rotateY(0deg);
+    }
+    .card:hover > .front, .card:hover > .back,
+    .card:focus > .front, .card:focus > .back {
+      outline-color: white;
+      box-shadow: 0 0 2vh black;
     }
   </style>
 </head><body draggable="false">
@@ -106,8 +121,8 @@
     }
 
     const setupBoard = () => {
-      const figures = ["ambulance", "bulldozer", "bus", "mine-truck", "steam-locomotive"]
-      const colors = ["#d200d9", "#4b00d9", "#00c2d9", "#1eda00", "#db8800"]
+      const figures = ["steam-locomotive", "bulldozer", "bus", "mine-truck", "ambulance"]
+      const colors = ["#2f5755", "#54c6be", "#f7b15c", "#f65c51", "#e5243f"]
       const renderCard = card => `
         <button
           class="card"
