@@ -132,7 +132,9 @@
     }
 
     const setupBoard = () => {
-      const figures = ["steam-locomotive", "bulldozer", "bus", "mine-truck", "ambulance"]
+      // TODO: Add figure selection (vehicles, dinosaurs etc.)
+      // const figures = ["steam-locomotive", "bulldozer", "bus", "mine-truck", "ambulance"]
+      const figures = ["dimetrodon", "diplodocus", "pterodactylus", "triceratops-head", "velociraptor"]
       const colors = ["#2f5755", "#54c6be", "#f7b15c", "#f65c51", "#e5243f"]
       const renderCard = card => `
         <button
@@ -208,6 +210,7 @@
 
     const setupGame = () => {
       document.querySelectorAll('.card').forEach(card => {
+        // TODO: Make this work with every mouse button (right, middle)
         card.addEventListener('click', handleCardClick)
       })
     }
@@ -215,5 +218,8 @@
     setupPointer()
     setupBoard()
     setupGame()
+
+    // TODO: Add sound
+    // TODO: Add restart button
   </script>
 </body></html>
