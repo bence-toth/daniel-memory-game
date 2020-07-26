@@ -4,6 +4,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Memory card game</title>
   <style>
+    /* TODO: Convert everything to vmin */
     * {
       padding: 0;
       margin: 0;
@@ -74,8 +75,8 @@
     .card[data-state=found] > .front {
       transform: rotateY(0deg);
     }
-    .card:hover > .front, .card:hover > .back,
-    .card:focus > .front, .card:focus > .back {
+    .card:hover > .front, .card:hover > .back /*,
+    .card:focus > .front, .card:focus > .back */ {
       outline-color: white;
       box-shadow: 0 0 2vh hsla(0, 0%, 0%, 0.5) inset, 0 0 2vh black;
     }
@@ -133,9 +134,16 @@
 
     const setupBoard = () => {
       // TODO: Add figure selection (vehicles, dinosaurs etc.)
-      // const figures = ["steam-locomotive", "bulldozer", "bus", "mine-truck", "ambulance"]
-      const figures = ["dimetrodon", "diplodocus", "pterodactylus", "triceratops-head", "velociraptor"]
       const colors = ["#2f5755", "#54c6be", "#f7b15c", "#f65c51", "#e5243f"]
+      const faces = {
+        vehicles: ["steam-locomotive", "bulldozer", "bus", "mine-truck", "ambulance"],
+        dinosaurs: ["dimetrodon", "diplodocus", "pterodactylus", "triceratops-head", "velociraptor"],
+        tools: ["hand-saw", "spade", "3d-hammer", "drill", "spanner"],
+        fruit: ["shiny-apple", "grapes", "pear", "banana", "cherry"],
+        clothes: ["travel-dress", "underwear-shorts", "socks", "winter-gloves", "winter-hat"],
+        space: ["rocket", "space-suit", "earth-africa-europe", "rainbow-star", "moon"]
+      }
+      const figures = faces.space
       const renderCard = card => `
         <button
           class="card"
@@ -220,6 +228,6 @@
     setupGame()
 
     // TODO: Add sound
-    // TODO: Add restart button
+    // TODO: Add restart button (with figure selection)
   </script>
 </body></html>
