@@ -4,7 +4,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Memory card game</title>
   <style>
-    /* TODO: Convert everything to vmin */
     * {
       padding: 0;
       margin: 0;
@@ -75,8 +74,7 @@
     .card[data-state=found] > .front {
       transform: rotateY(0deg);
     }
-    .card:hover > .front, .card:hover > .back /*,
-    .card:focus > .front, .card:focus > .back */ {
+    .card:hover > .front, .card:hover > .back {
       outline-color: white;
       box-shadow: 0 0 2vh hsla(0, 0%, 0%, 0.5) inset, 0 0 2vh black;
     }
@@ -133,7 +131,6 @@
     }
 
     const setupBoard = () => {
-      // TODO: Add figure selection (vehicles, dinosaurs etc.)
       const colors = ["#2f5755", "#54c6be", "#f7b15c", "#f65c51", "#e5243f"]
       const faces = {
         vehicles: ["steam-locomotive", "bulldozer", "bus", "mine-truck", "ambulance"],
@@ -218,7 +215,6 @@
 
     const setupGame = () => {
       document.querySelectorAll('.card').forEach(card => {
-        // TODO: Make this work with every mouse button (right, middle)
         card.addEventListener('click', handleCardClick)
       })
     }
@@ -226,8 +222,5 @@
     setupPointer()
     setupBoard()
     setupGame()
-
-    // TODO: Add sound
-    // TODO: Add restart button (with figure selection)
   </script>
 </body></html>
