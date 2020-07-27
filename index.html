@@ -133,57 +133,62 @@
       });
     }
 
-    const setupBoard = () => {
-      const colors = ["#2f5755", "#54c6be", "#f7b15c", "#f65c51", "#e5243f"]
-      const faces = {
-        vehicles: ["steam-locomotive", "bulldozer", "bus", "mine-truck", "ambulance"],
-        dinosaurs: ["dimetrodon", "diplodocus", "pterodactylus", "triceratops-head", "velociraptor"],
-        tools: ["hand-saw", "spade", "3d-hammer", "drill", "spanner"],
-        fruit: ["shiny-apple", "grapes", "pear", "banana", "cherry"],
-        clothes: ["travel-dress", "underwear-shorts", "socks", "winter-gloves", "winter-hat"],
-        space: ["rocket", "space-suit", "earth-africa-europe", "rainbow-star", "moon"]
-      }
-      const figures = faces.space
-      const renderCard = card => `
+    const colors = ["#2f5755", "#54c6be", "#f7b15c", "#f65c51", "#e5243f"]
+
+    const decks = [
+      ["steam-locomotive", "bulldozer", "bus", "mine-truck", "ambulance"],
+      ["dimetrodon", "diplodocus", "pterodactylus", "triceratops-head", "velociraptor"],
+      ["hand-saw", "spade", "3d-hammer", "drill", "spanner"],
+      ["shiny-apple", "grapes", "pear", "banana", "cherry"],
+      ["travel-dress", "underwear-shorts", "socks", "winter-gloves", "winter-hat"],
+      ["rocket", "space-suit", "earth-africa-europe", "rainbow-star", "moon"]
+    ]
+
+    const handleDeckSelection = selectedDeckIndex => {
+      setupBoard(selectedDeckIndex)
+    }
+
+    const setupDeckSelection = () => {
+      const renderDeckSelector = card => `
         <button
           class="card"
-          data-value="${card.figure}"
-          data-state="hidden"
+          data-state="selected"
+          data-deck-index="${card.index}"
         >
           <div
             class="front"
             style="background-color: ${card.color};"
           >
             <img
-              src="./assets/${card.figure}.svg"
-              draggable="false"
-            />
-          </div>
-          <div class="back">
-            <img
-              src="./assets/perspective-dice-six-faces-random.svg"
+              src="./assets/${card.face}.svg"
               draggable="false"
             />
           </div>
         </button>
       `
 
-      const deck = (
-        figures
+      const selectors = (
+        decks
+          .map(([firstCard]) => firstCard)
           .map((card, cardIndex) => ({
-            id: cardIndex,
-            figure: card,
-            color: colors[cardIndex]
+            index: cardIndex,
+            face: card,
+            color: [...colors, ...colors][cardIndex]
           }))
       )
-      const fullDeck = [...deck, ...deck]
-      const shuffledDeck = shuffleArray(fullDeck)
       const row1 = document.getElementById("row1")
       const row2 = document.getElementById("row2")
       const row3 = document.getElementById("row3")
-      row1.innerHTML = shuffledDeck.slice(0, 3).map(renderCard).join('')
-      row2.innerHTML = shuffledDeck.slice(3, 7).map(renderCard).join('')
-      row3.innerHTML = shuffledDeck.slice(7, 10).map(renderCard).join('')
+      row1.innerHTML = selectors.slice(0, 3).map(renderDeckSelector).join('')
+      row2.innerHTML = ''
+      row3.innerHTML = selectors.slice(3, 6).map(renderDeckSelector).join('')
+
+      document.querySelectorAll('.card').forEach(card => {
+        const selectedDeckIndex = +(card.dataset.deckIndex)
+        card.addEventListener('click', () => handleDeckSelection(selectedDeckIndex))
+        card.addEventListener('contextmenu', () => handleDeckSelection(selectedDeckIndex))
+        card.addEventListener('auxclick', () => handleDeckSelection(selectedDeckIndex))
+      })
     }
 
     const handleCardClick = event => {
@@ -217,7 +222,47 @@
       }
     }
 
-    const setupGame = () => {
+    const setupBoard = (selectedDeckIndex) => {
+      const faces = decks[selectedDeckIndex]
+      const renderCard = card => `
+        <button
+          class="card"
+          data-value="${card.face}"
+          data-state="hidden"
+        >
+          <div
+            class="front"
+            style="background-color: ${card.color};"
+          >
+            <img
+              src="./assets/${card.face}.svg"
+              draggable="false"
+            />
+          </div>
+          <div class="back">
+            <img
+              src="./assets/perspective-dice-six-faces-random.svg"
+              draggable="false"
+            />
+          </div>
+        </button>
+      `
+      const deck = (
+        faces
+          .map((card, cardIndex) => ({
+            id: cardIndex,
+            face: card,
+            color: colors[cardIndex]
+          }))
+      )
+      const fullDeck = [...deck, ...deck]
+      const shuffledDeck = shuffleArray(fullDeck)
+      const row1 = document.getElementById("row1")
+      const row2 = document.getElementById("row2")
+      const row3 = document.getElementById("row3")
+      row1.innerHTML = shuffledDeck.slice(0, 3).map(renderCard).join('')
+      row2.innerHTML = shuffledDeck.slice(3, 7).map(renderCard).join('')
+      row3.innerHTML = shuffledDeck.slice(7, 10).map(renderCard).join('')
       document.querySelectorAll('.card').forEach(card => {
         card.addEventListener('click', handleCardClick)
         card.addEventListener('contextmenu', handleCardClick)
@@ -226,7 +271,6 @@
     }
 
     setupPointer()
-    setupBoard()
-    setupGame()
+    setupDeckSelection()
   </script>
 </body></html>
