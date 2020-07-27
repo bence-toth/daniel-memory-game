@@ -231,6 +231,12 @@
                 card.dataset.state = "found"
                 card.disabled = "disabled"
               })
+              const foundCards = [...document.querySelectorAll('.card[data-state="found"]')]
+              if (foundCards.length === 10) {
+                setTimeout(() => {
+                  setupDeckSelection()
+                }, 5000)
+              }
             }, 1000)
           }
           else {
