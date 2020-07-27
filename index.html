@@ -34,6 +34,18 @@
       align-items: center;
       justify-content: center;
     }
+    @keyframes fadingIn {
+      from {
+        transform: scale(1.1);
+        opacity: 0;
+        pointer-events: none;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+        pointer-events: auto;
+      }
+    }
     .card {
       width: 20vh;
       height: 20vh;
@@ -42,7 +54,16 @@
       background-color: transparent;
       position: relative;
       perspective: 1000px;
+      opacity: 1;
       transition: transform 5s;
+      animation-duration: 0.5s;
+      animation-name: fadingIn;
+    }
+    .card[data-transition=fadingOut] {
+      transition: transform 0.5s, opacity 0.5s;
+      transform: scale(0.9);
+      opacity: 0;
+      pointer-events: none;
     }
     .card:focus {
       outline: 0;
@@ -58,8 +79,6 @@
       padding: 1vh;
       outline: 1.5vh solid transparent;
       box-shadow: 0 0 2vh hsla(0, 0%, 0%, 0.5) inset, 0 0 2vh transparent;
-    }
-    .card > .back {
       background-color: gray;
     }
     .card > .back {
@@ -145,7 +164,12 @@
     ]
 
     const handleDeckSelection = selectedDeckIndex => {
-      setupBoard(selectedDeckIndex)
+      document.querySelectorAll('.card').forEach(card => {
+        card.dataset.transition="fadingOut"
+      })
+      setTimeout(() => {
+        setupBoard(selectedDeckIndex)
+      }, 600)
     }
 
     const setupDeckSelection = () => {
@@ -155,10 +179,7 @@
           data-state="selected"
           data-deck-index="${card.index}"
         >
-          <div
-            class="front"
-            style="background-color: ${card.color};"
-          >
+          <div class="front">
             <img
               src="./assets/${card.face}.svg"
               draggable="false"
@@ -172,8 +193,7 @@
           .map(([firstCard]) => firstCard)
           .map((card, cardIndex) => ({
             index: cardIndex,
-            face: card,
-            color: [...colors, ...colors][cardIndex]
+            face: card
           }))
       )
       const row1 = document.getElementById("row1")
