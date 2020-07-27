@@ -103,6 +103,9 @@
     }
 
     const setupPointer = () => {
+      window.addEventListener('contextmenu', event => {
+        event.preventDefault()
+      })
       const pointer = document.getElementById('pointer')
       const pointerImage = document.querySelector('#pointer > img')
       const pointingHandPointerOffset = {
