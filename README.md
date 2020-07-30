@@ -3,6 +3,29 @@
 A simple ten-piece memory card game.
 
 
+## Inspiration and acknowledgements
+
+We built this game together with my (at the time of writing) two-year-old son, Daniel.
+
+We have tried a few online memory games, and he had difficulties handling and properly understanding how to control the mouse.
+
+So I promised him that we make one which he _can_ play.
+
+He has contributed greatly acting as:
+
+- delivery manager, asking for daily status updates and challenging me to focus,
+
+- designer, delicately picking all card faces and colors,
+
+- usability tester, providing useful input while driving numerous testing sessions,
+
+- model, contributing his perfect little arm as mouse cursor.
+
+Without him, this could not have happened, I am very proud of him, and I am eternally grateful. :heart:
+
+Let this project we worked on together be the first one of the many to come.
+
+
 ## License
 
 Daniel’s memory card game is licensed under MIT,
