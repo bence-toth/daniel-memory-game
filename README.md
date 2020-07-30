@@ -17,7 +17,7 @@ He has contributed greatly acting as:
 
 - designer, delicately picking all card faces and colors,
 
-- usability tester, providing useful input while driving numerous testing sessions,
+- usability and accessibility tester, providing useful input while driving numerous testing sessions,
 
 - model, contributing his perfect little arm as mouse cursor.
 
