@@ -8,9 +8,12 @@
       padding: 0;
       margin: 0;
       box-sizing: border-box;
-      cursor: none;
       user-select: none;
       font-size: 0;
+    }
+    body.customCursor,
+    body.customCursor * {
+      cursor: none;
     }
     html, body {
       height: 100%;
@@ -22,6 +25,13 @@
       left: 0;
       pointer-events: none;
       z-index: 2;
+    }
+    #pointer > img {
+      transition: opacity 0.4s;
+      transition-delay: 0.1s;
+    }
+    #pointer > img.hidden {
+      opacity: 0;
     }
     #board {
       border: 1.5vmin solid hsl(0, 0%, 25%);
@@ -124,9 +134,7 @@
     <div id="row2"></div>
     <div id="row3"></div>
   </div>
-  <div id="pointer">
-    <img src="./assets/pointing-hand.png" draggable="false" />
-  </div>
+  <div id="pointer"></div>
   <script>
     const shuffleArray = array => {
       // Fisher–Yates shuffle
@@ -138,6 +146,10 @@
     }
 
     const setupPointer = () => {
+      document.body.classList.add('customCursor')
+      document.getElementById('pointer').innerHTML = `
+        <img class="hidden" src="./assets/pointing-hand.png" draggable="false" />
+      `
       window.addEventListener('contextmenu', event => {
         event.preventDefault()
       })
@@ -164,6 +176,10 @@
           scale(${scaleFactor.toFixed(4)})
         `
       });
+      window.addEventListener('mousemove', () => {
+        document.querySelector('#pointer > img').classList.remove('hidden')
+      }, {once: true})
+
 
       window.addEventListener('mousedown', e => {
         pointerImage.src = "./assets/tapping-hand.png"
