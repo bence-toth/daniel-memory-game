@@ -44,6 +44,10 @@
       align-items: center;
       justify-content: center;
     }
+    #row1, #row2, #row3 {
+      display: flex;
+      flex-direction: row;
+    }
     @keyframes fadingIn {
       from {
         transform: scale(1.1);
@@ -125,6 +129,14 @@
         width: 15vmin;
         height: 15vmin;
         margin: 3.5vmin;
+      }
+    }
+    @media (max-width: 100vh) {
+      #board {
+        flex-direction: row;
+      }
+      #row1, #row2, #row3 {
+        flex-direction: column;
       }
     }
   </style>
