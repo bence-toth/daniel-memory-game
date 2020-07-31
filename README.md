@@ -2,6 +2,8 @@
 
 A simple ten-piece memory card game.
 
+You can [play the game here](https://bence-toth.github.io/daniel-memory-game/).
+
 
 ## Inspiration and acknowledgements
 
