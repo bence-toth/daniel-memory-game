@@ -156,7 +156,13 @@
         const translateX = `${x - pointingHandPointerOffset.x}px`
         const translateY = `${y - pointingHandPointerOffset.y}px`
         const rotation = `${xFromCenter * pointerMaxRotation}deg`
-        pointer.style.transform = `translate(${translateX}, ${translateY}) rotate(${rotation})`
+        const vmin = Math.min(window.innerWidth, window.innerHeight)
+        const scaleFactor = vmin / 1440
+        pointer.style.transform = `
+          translate(${translateX}, ${translateY})
+          rotate(${rotation})
+          scale(${scaleFactor.toFixed(4)})
+        `
       });
 
       window.addEventListener('mousedown', e => {
