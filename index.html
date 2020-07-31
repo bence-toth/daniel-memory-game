@@ -215,7 +215,7 @@
 
     const handleCardClick = event => {
       event.preventDefault()
-      const cardClicked = event.path.find(element => (
+      const cardClicked = event.composedPath().find(element => (
         [...element.classList].includes("card"))
       )
       if (cardClicked.dataset.state === "hidden") {
