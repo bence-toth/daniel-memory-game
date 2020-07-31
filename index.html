@@ -192,7 +192,6 @@
         document.querySelector('#pointer > img').classList.remove('hidden')
       }, {once: true})
 
-
       window.addEventListener('mousedown', e => {
         pointerImage.src = "./assets/tapping-hand.png"
       });
@@ -346,7 +345,9 @@
       })
     }
 
-    setupPointer()
+    if (!('ontouchstart' in window)) {
+      setupPointer()
+    }
     setupDeckSelection()
   </script>
 </body></html>
