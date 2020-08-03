@@ -10,7 +10,14 @@
     <div id="row2"></div>
     <div id="row3"></div>
   </div>
-  <div id="pointer"></div>
+  <div id="pointer">
+    <img
+      class="hidden"
+      src="./assets/pointing-hand.png"
+      draggable="false"
+    />
+  </div>
+  <script src="./pointer.js"></script>
   <script>
     const shuffleArray = array => {
       // Fisher–Yates shuffle
@@ -19,50 +26,6 @@
         [array[iterator], array[switchWith]] = [array[switchWith], array[iterator]]
       }
       return array
-    }
-
-    const setupPointer = () => {
-      document.body.classList.add('customCursor')
-      document.getElementById('pointer').innerHTML = `
-        <img class="hidden" src="./assets/pointing-hand.png" draggable="false" />
-      `
-      window.addEventListener('contextmenu', event => {
-        event.preventDefault()
-      })
-      const pointer = document.getElementById('pointer')
-      const pointerImage = document.querySelector('#pointer > img')
-      const pointingHandPointerOffset = {
-        x: 70,
-        y: 15
-      }
-      const pointerMaxRotation = 25 // in degrees
-      pointer.style.transformOrigin = `${pointingHandPointerOffset.x}px ${pointingHandPointerOffset.y}px`
-      window.addEventListener('mousemove', event => {
-        const viewportWidth = window.innerWidth
-        const {clientX: x, clientY: y} = event
-        const xFromCenter = ((x / viewportWidth) * 2) - 1 // within [-1, 1]
-        const translateX = `${x - pointingHandPointerOffset.x}px`
-        const translateY = `${y - pointingHandPointerOffset.y}px`
-        const rotation = `${xFromCenter * pointerMaxRotation}deg`
-        const vmin = Math.min(window.innerWidth, window.innerHeight)
-        const scaleFactor = vmin / 1440
-        pointer.style.transform = `
-          translate(${translateX}, ${translateY})
-          rotate(${rotation})
-          scale(${scaleFactor.toFixed(4)})
-        `
-      });
-      window.addEventListener('mousemove', () => {
-        document.querySelector('#pointer > img').classList.remove('hidden')
-      }, {once: true})
-
-      window.addEventListener('mousedown', e => {
-        pointerImage.src = "./assets/tapping-hand.png"
-      });
-
-      window.addEventListener('mouseup', e => {
-        pointerImage.src = "./assets/pointing-hand.png"
-      });
     }
 
     const colors = ["#2f5755", "#54c6be", "#f7b15c", "#f65c51", "#e5243f"]
@@ -209,9 +172,6 @@
       })
     }
 
-    if (!('ontouchstart' in window)) {
-      setupPointer()
-    }
     setupDeckSelection()
   </script>
 </body></html>
