@@ -135,6 +135,12 @@ html, body {
   z-index: 1;
 }
 
+.card > .front > img,
+.card > .back > img {
+  width: 100%;
+  height: 100%;
+}
+
 @media (max-width: 125vh) {
   .card {
     width: 17.5vmin;
