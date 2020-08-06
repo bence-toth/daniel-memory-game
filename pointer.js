@@ -43,11 +43,11 @@ const setupPointer = () => {
   })
 
   window.addEventListener('mousedown', () => {
-    pointerImage.src = "./assets/tapping-hand.png"
+    pointerImage.src = "./assets/tapping-hand.webp"
   })
 
   window.addEventListener('mouseup', () => {
-    pointerImage.src = "./assets/pointing-hand.png"
+    pointerImage.src = "./assets/pointing-hand.webp"
   })
 }
 
