@@ -21,6 +21,8 @@ He has contributed greatly acting as:
 
 - usability and accessibility tester, providing useful input while driving numerous testing sessions,
 
+- voice actor, authoring all the beautiful sounds in the game,
+
 - model, contributing his perfect little arm as mouse cursor.
 
 Without him, this could not have happened, I am very proud of him, and I am eternally grateful. :heart:
