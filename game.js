@@ -127,10 +127,17 @@ const handleCardClick = event => {
             setTimeout(() => {
               setupDeckSelection()
             }, 5000)
+            playSound('applause')
+          }
+          else {
+            playSound('positive')
           }
         }, 1000)
       }
       else {
+        setTimeout(() => {
+          playSound('negative')
+        }, 1000)
         setTimeout(() => {
           [cardClicked, selectedCard].forEach(card => {
             card.dataset.state = "hidden"
